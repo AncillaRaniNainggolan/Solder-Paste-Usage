@@ -1,0 +1,109 @@
+﻿@model IEnumerable<SolderPasteUsage.Models.MaterialOrder>
+
+@{
+    ViewData["Title"] = "Material Order";
+}
+
+<div class="dashboard-header">
+    <h1>Material Order</h1>
+    <p>Auto Generated Material Request</p>
+</div>
+
+<div class="table-card">
+
+    <table id="materialTable" class="dashboard-table display">
+
+        <thead>
+
+            <tr>
+                <th>Order ID</th>
+                <th>Line</th>
+                <th>WO</th>
+                <th>Project</th>
+                <th>SPPN</th>
+                <th>CPN</th>
+                <th>Qty Jar</th>
+                <th>Status</th>
+                <th>Order Date</th>
+                <th>Auto Order</th>
+            </tr>
+
+        </thead>
+
+        <tbody>
+
+            @foreach (var item in Model)
+            {
+                <tr>
+
+                    <td>@item.OrderId</td>
+
+                    <td>@item.Line</td>
+
+                    <td>@item.WO</td>
+
+                    <td>@item.ProjectName</td>
+
+                    <td>@item.SPPN</td>
+
+                    <td>@item.CPN</td>
+
+                    <td>@item.QtyJar</td>
+
+                    <td>
+
+                        @if (item.TransferStatus == "Pending")
+                        {
+                            <span class="badge bg-warning">
+                                Pending
+                            </span>
+                        }
+                        else
+                        {
+                            @item.TransferStatus
+                        }
+
+                    </td>
+
+                    <td>
+                        @item.OrderDate.ToString("dd/MM/yyyy")
+                    </td>
+
+                    <td>
+                        @item.AutoOrderTime.ToString("dd/MM/yyyy HH:mm")
+                    </td>
+
+                </tr>
+            }
+
+        </tbody>
+
+    </table>
+
+</div>
+
+@section Scripts
+{
+    <script>
+
+        $(document).ready(function () {
+
+            $('#materialTable').DataTable({
+
+                pageLength: 10,
+
+                lengthMenu: [
+                    [10, 25, 50, 100],
+                    [10, 25, 50, 100]
+                ],
+
+                order: [[9, "desc"]],
+
+                responsive: true
+
+            });
+
+        });
+
+    </script>
+}

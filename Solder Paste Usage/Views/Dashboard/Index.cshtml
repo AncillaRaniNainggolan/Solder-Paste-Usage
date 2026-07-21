@@ -1,0 +1,282 @@
+﻿@model dynamic
+
+<div class="dashboard-header">
+
+    <h1>Dashboard</h1>
+
+    <p>
+        Solder Paste Usage Monitoring
+    </p>
+
+</div>
+
+<div class="summary-grid">
+
+    <div class="summary-card">
+
+        <h4>TOTAL SKID</h4>
+
+        <h2>
+            @ViewBag.TotalSKID
+        </h2>
+
+    </div>
+
+    <div class="summary-card">
+
+        <h4>SOLDER USAGE</h4>
+
+        <h2>
+            @Convert.ToDecimal(
+                     ViewBag.SolderUsage
+                     ).ToString("N2")
+        </h2>
+
+    </div>
+
+    <div class="summary-card">
+
+        <h4>TOTAL VOLUME</h4>
+
+        <h2>
+            @Convert.ToDecimal(
+                     ViewBag.TotalVolume
+                     ).ToString("N2")
+        </h2>
+
+    </div>
+
+    <div class="summary-card">
+
+        <h4>USAGE RATE</h4>
+
+        <h2>
+            @Convert.ToDecimal(
+                     ViewBag.UsageRate
+                     ).ToString("N2")
+        </h2>
+
+    </div>
+
+</div>
+
+
+
+<div class="table-card">
+
+    <table id="dashboardTable"
+           class="dashboard-table datatable">
+
+        <thead>
+
+            <tr>
+
+                <th>WO</th>
+
+                <th>Project</th>
+
+                <th>SPPN</th>
+
+                <th>CPN</th>
+
+                <th>Volume/Pcs</th>
+
+                <th>Solder/Pcs</th>
+
+                <th>Total Volume</th>
+
+                <th>Qty Jar</th>
+
+                <th>Status</th>
+
+            </tr>
+
+        </thead>
+
+        <tbody>
+
+            @foreach (var item in Model)
+            {
+                <tr>
+
+                    <td>
+                        @item.WO
+                    </td>
+
+                    <td>
+                        @item.ProjectName
+                    </td>
+
+                    <td>
+                        @item.SPPN
+                    </td>
+
+                    <td>
+                        @item.CPN
+                    </td>
+
+                    <td>
+                        @Convert.ToDecimal(
+                                 item.VolumePerPcs
+                                 ).ToString("N2")
+                    </td>
+
+                    <td>
+                        @Convert.ToDecimal(
+                                 item.SolderPastePerPcs
+                                 ).ToString("N2")
+                    </td>
+
+                    <td>
+                        @Convert.ToDecimal(
+                                 item.TotalVolume
+                                 ).ToString("N2")
+                    </td>
+
+                    <td>
+                        @item.QtyJar
+                    </td>
+
+                    <td>
+
+                        @if (item.TransferStatus == "Pending")
+                        {
+                            <span class="badge badge-pending">
+                                Pending
+                            </span>
+                        }
+                        else if (
+                        item.TransferStatus
+                        == "Order Generated")
+                        {
+                            <span class="badge badge-generated">
+                                Generated
+                            </span>
+                        }
+                        else
+                        {
+                            <span class="badge badge-delivered">
+                                @item.TransferStatus
+                            </span>
+                        }
+
+                    </td>
+
+                </tr>
+            }
+
+        </tbody>
+
+    </table>
+
+</div>
+
+@section Scripts
+{
+
+    <script>
+
+        const monthLabels =
+        @Html.Raw(
+                    System.Text.Json.JsonSerializer.Serialize(
+                        ViewBag.MonthLabels
+                    )
+                );
+
+        const monthUsage =
+        @Html.Raw(
+                    System.Text.Json.JsonSerializer.Serialize(
+                        ViewBag.MonthUsage
+                    )
+                );
+
+        const lineLabels =
+        @Html.Raw(
+                    System.Text.Json.JsonSerializer.Serialize(
+                        ViewBag.LineLabels
+                    )
+                 );
+
+        const lineData =
+        @Html.Raw(
+                    System.Text.Json.JsonSerializer.Serialize(
+                        ViewBag.LineData
+                    )
+                );
+
+        new Chart(
+
+        document.getElementById(
+            "usageChart"
+        ),
+
+        {
+            type:"bar",
+
+            data:
+            {
+                labels:monthLabels,
+
+                datasets:
+                [
+                    {
+                        label:"Qty Jar",
+
+                        data:monthUsage,
+
+                        borderWidth:1
+                    }
+                ]
+            },
+
+            options:
+            {
+                responsive:true,
+
+                maintainAspectRatio:false
+            }
+        });
+
+        new Chart(
+
+        document.getElementById(
+            "pieChart"
+        ),
+
+        {
+            type:"doughnut",
+
+            data:
+            {
+                labels:lineLabels,
+
+                datasets:
+                [
+                    {
+                        data:lineData
+                    }
+                ]
+            },
+
+            options:
+            {
+                responsive:true,
+
+                maintainAspectRatio:false
+            }
+        });
+
+    </script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+
+    <script src="https://cdn.datatables.net/1.13.8/js/jquery.dataTables.min.js"></script>
+
+    <script src="https://cdn.datatables.net/1.13.8/js/dataTables.bootstrap5.min.js"></script>
+
+    <script src="https://cdn.datatables.net/responsive/2.5.0/js/dataTables.responsive.min.js"></script>
+
+    <script src="https://cdn.datatables.net/responsive/2.5.0/js/responsive.bootstrap5.min.js"></script>
+
+    
+
+}

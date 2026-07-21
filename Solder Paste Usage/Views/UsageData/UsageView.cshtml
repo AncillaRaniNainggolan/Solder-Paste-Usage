@@ -1,0 +1,162 @@
+﻿@model IEnumerable<dynamic>
+
+<div class="dashboard-title">
+    <h1>@ViewBag.Title</h1>
+    <p>Solder Paste Usage Monitoring</p>
+</div>
+
+<div class="summary-grid">
+
+    <div class="summary-card">
+        <div class="card-title">TOTAL SKID</div>
+        <div class="card-value">
+            @ViewBag.TotalSKID
+        </div>
+    </div>
+
+    <div class="summary-card">
+        <div class="card-title">SOLDER PASTE USAGE (GR)</div>
+        <div class="card-value">
+            @ViewBag.SolderUsage
+        </div>
+    </div>
+
+    <div class="summary-card">
+        <div class="card-title">TOTAL VOLUME</div>
+        <div class="card-value">
+            @Convert.ToDecimal(ViewBag.TotalVolume).ToString("N2")
+        </div>
+    </div>
+
+    <div class="summary-card">
+        <div class="card-title">USAGE / VOLUME</div>
+        <div class="card-value">
+            @Convert.ToDecimal(ViewBag.UsageRate).ToString("N2")
+        </div>
+    </div>
+
+</div>
+
+<div class="table-card">
+
+    <table id="materialTable" class="dashboard-table display">
+
+        <thead>
+            <tr>
+                <th>WO</th>
+                <th>Project</th>
+                <th>SP P/N</th>
+                <th>CPN</th>
+                <th>Qty</th>
+                <th>Volume/Pcs</th>
+                <th>Solder/Pcs</th>
+                <th>Total Volume</th>
+                <th>Qty Jar</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+
+        <tbody>
+
+            @if (Model != null && Model.Any())
+            {
+                @foreach (var item in Model)
+                {
+                    <tr>
+
+                        <td>@item.WO</td>
+
+                        <td>@item.Project</td>
+
+                        <td>@item.SPPN</td>
+
+                        <td>@item.CPN</td>
+
+                        <td>@item.Qty</td>
+
+                        <td>
+                            @Convert.ToDecimal(item.VolumePerPcs).ToString("N2")
+                        </td>
+
+                        <td>
+                            @Convert.ToDecimal(item.SolderPastePerPcs).ToString("N2")
+                        </td>
+
+                        <td>
+                            @Convert.ToDecimal(item.TotalVolume).ToString("N2")
+                        </td>
+
+                        <td>
+                            @Convert.ToInt32(item.QtyJar)
+                        </td>
+
+                        <td>
+                            @item.TransferStatus
+                        </td>
+
+                    </tr>
+                }
+            }
+            else
+            {
+                <tr>
+                    <td colspan="10"
+                        style="text-align:center;padding:25px;">
+                        No data found
+                    </td>
+                </tr>
+            }
+
+        </tbody>
+        @section Scripts
+        {
+            <script>
+
+                $(document).ready(function () {
+
+                    $('#usageviewtable').DataTable({
+
+                        pageLength: 10,
+
+                        lengthMenu: [
+                            [10, 25, 50, 100],
+                            [10, 25, 50, 100]
+                        ],
+
+                        order: [[9, "desc"]],
+
+                        responsive: true
+
+                    });
+
+                });
+
+            </script>
+        }
+
+    </table>
+
+</div>
+
+<style>
+
+    .search-container {
+        margin-bottom: 20px;
+    }
+
+    .search-box {
+        width: 350px;
+        padding: 12px 15px;
+        border: 1px solid #d9d9d9;
+        border-radius: 10px;
+        font-size: 14px;
+        outline: none;
+    }
+
+        .search-box:focus {
+            border-color: #3b5bdb;
+            box-shadow: 0 0 8px rgba(59,91,219,.2);
+        }
+
+</style>
+

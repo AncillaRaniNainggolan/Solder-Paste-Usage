@@ -1,0 +1,220 @@
+﻿@model IEnumerable<SolderPasteUsage.Models.DemandProduction>
+
+@{
+    ViewData["Title"] = "Demand Production";
+}
+
+<div class="dashboard-title">
+
+    <h1>Demand Production</h1>
+
+    <p>
+        Manage production demand data
+    </p>
+
+</div>
+
+
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="alert-success">
+        @TempData["SuccessMessage"]
+    </div>
+}
+
+
+<div class="table-card">
+
+    <div class="table-header">
+
+        <div>
+
+            <h3>
+                Demand Production Data
+            </h3>
+
+        </div>
+
+        <div>
+
+            <a asp-controller="DemandProduction"
+               asp-action="Create"
+               class="btn-add">
+
+                + Add Demand
+
+            </a>
+
+        </div>
+
+    </div>
+
+
+    <table id="demandTable"
+           class="dashboard-table display">
+
+        <thead>
+
+            <tr>
+
+                <th>Line</th>
+
+                <th>WO</th>
+
+                <th>Project</th>
+
+                <th>Family</th>
+
+                <th>Qty</th>
+
+                <th>UPH</th>
+
+                <th>WO Start</th>
+
+                <th>Action</th>
+
+            </tr>
+
+        </thead>
+
+
+        <tbody>
+
+            @if (Model != null && Model.Any())
+            {
+                foreach (var item in Model)
+                {
+                    <tr>
+
+                        <td>
+                            @item.Line
+                        </td>
+
+                        <td>
+                            @item.WO
+                        </td>
+
+                        <td>
+                            @item.ProjectName
+                        </td>
+
+                        <td>
+                            @item.Family
+                        </td>
+
+                        <td>
+                            @item.Quantity
+                        </td>
+
+                        <td>
+                            @item.UPH
+                        </td>
+
+                        <td>
+                            @item.WOStart.ToString("dd/MM/yyyy HH:mm")
+                        </td>
+
+                        <td>
+
+                            <div class="action-buttons">
+
+                                <a asp-controller="DemandProduction"
+                                   asp-action="Edit"
+                                   asp-route-id="@item.DemandId"
+                                   class="btn-edit">
+
+                                    Edit
+
+                                </a>
+
+
+                                <a asp-controller="DemandProduction"
+                                   asp-action="Delete"
+                                   asp-route-id="@item.DemandId"
+                                   class="btn-delete">
+
+                                    Delete
+
+                                </a>
+
+                            </div>
+
+                        </td>
+
+                    </tr>
+                }
+            }
+            else
+            {
+                <tr>
+
+                    <td colspan="8"
+                        style="text-align:center;padding:30px;">
+
+                        No Demand Production data found.
+
+                    </td>
+
+                </tr>
+            }
+
+        </tbody>
+
+    </table>
+
+</div>
+
+
+@section Scripts
+{
+
+    <script>
+
+        $(document).ready(function () {
+
+            $('#demandTable').DataTable({
+
+                pageLength: 25,
+
+                lengthMenu: [
+                    [10, 25, 50, 100, -1],
+                    [10, 25, 50, 100, "All"]
+                ],
+
+                order: [
+                    [6, "desc"]
+                ],
+
+                language: {
+
+                    search: "Search:",
+
+                    lengthMenu:
+                        "Show _MENU_ entries",
+
+                    info:
+                        "Showing _START_ to _END_ of _TOTAL_ entries",
+
+                    infoEmpty:
+                        "Showing 0 to 0 of 0 entries",
+
+                    emptyTable:
+                        "No data available",
+
+                    paginate: {
+
+                        previous: "Previous",
+
+                        next: "Next"
+
+                    }
+
+                }
+
+            });
+
+        });
+
+    </script>
+
+}

@@ -1,0 +1,309 @@
+﻿@model SolderPasteUsage.Models.LoginViewModel
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8" />
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1" />
+
+    <title>Solder Paste Usage System</title>
+
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" />
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI',sans-serif;
+            background: #eef3f8;
+            overflow: hidden;
+        }
+
+        .login-page {
+            display: flex;
+            width: 100%;
+            height: 100vh;
+        }
+
+        /* ================= LEFT ================= */
+
+        .left-side {
+            width: 60%;
+            background-image: linear-gradient(rgba(15,23,42,.65),rgba(30,64,175,.55)), url('/images/login-bg.jpg');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            padding: 60px;
+        }
+
+        .left-content {
+            max-width: 650px;
+        }
+
+            .left-content h1 {
+                font-size: 48px;
+                margin-bottom: 20px;
+                font-weight: bold;
+            }
+
+            .left-content p {
+                font-size: 20px;
+                line-height: 1.7;
+                margin-bottom: 30px;
+                opacity: .95;
+            }
+
+        .feature {
+            display: flex;
+            align-items: center;
+            margin-bottom: 18px;
+            font-size: 18px;
+        }
+
+            .feature i {
+                margin-right: 15px;
+                color: #7dd3fc;
+                font-size: 22px;
+            }
+
+        /* ================= RIGHT ================= */
+
+        .right-side {
+            width: 40%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: white;
+        }
+
+        .login-card {
+            width: 420px;
+            padding: 45px;
+            border-radius: 18px;
+            box-shadow: 0 15px 35px rgba(0,0,0,.12);
+            animation: fadeUp .8s;
+        }
+
+
+        {
+            opacity: 0;
+            transform: translateY(40px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        }
+
+        .login-card h2 {
+            text-align: center;
+            margin-bottom: 8px;
+            color: #1e293b;
+        }
+
+        .login-card p {
+            text-align: center;
+            color: #64748b;
+            margin-bottom: 35px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+
+        input {
+            width: 100%;
+            padding: 14px;
+            border: 1px solid #d1d5db;
+            border-radius: 10px;
+            font-size: 15px;
+            outline: none;
+        }
+
+            input:focus {
+                border-color: #2563eb;
+                box-shadow: 0 0 8px rgba(37,99,235,.2);
+            }
+
+        button {
+            width: 100%;
+            padding: 14px;
+            border: none;
+            border-radius: 10px;
+            background: #2563eb;
+            color: white;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: .3s;
+        }
+
+            button:hover {
+                background: #1d4ed8;
+            }
+
+        .error {
+            background: #fee2e2;
+            color: #b91c1c;
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .copyright {
+            text-align: center;
+            margin-top: 25px;
+            color: #94a3b8;
+            font-size: 13px;
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+    <div class="login-page">
+
+        <div class="left-side">
+
+            <div class="left-content">
+
+                <h1>XYZ</h1>
+
+                <p>
+
+                    Solder Paste Usage Monitoring System
+
+                    <br /><br />
+
+                    Engineering Dashboard untuk memonitor penggunaan solder paste,
+                    demand production, work order, dan material order secara real-time.
+
+                </p>
+
+                <div class="feature">
+
+                    <i class="fa-solid fa-chart-column"></i>
+
+                    Dashboard Monitoring
+
+                </div>
+
+                <div class="feature">
+
+                    <i class="fa-solid fa-box"></i>
+
+                    Material Order Tracking
+
+                </div>
+
+                <div class="feature">
+
+                    <i class="fa-solid fa-industry"></i>
+
+                    Production Monitoring
+
+                </div>
+
+                <div class="feature">
+
+                    <i class="fa-solid fa-microchip"></i>
+
+                    Solder Paste Usage Calculation
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="right-side">
+
+            <div class="login-card">
+
+                <h2>Welcome Back</h2>
+
+                <p>Please login to continue</p>
+
+                @if (!ViewData.ModelState.IsValid)
+                {
+                    <div class="error">
+
+                        Username atau Password salah
+
+                    </div>
+                }
+
+                <form asp-controller="Account"
+                      asp-action="Login"
+                      method="post">
+
+                    <div class="form-group">
+
+                        <label>Username</label>
+
+                        <input asp-for="Username" />
+
+                    </div>
+
+                    <div class="form-group">
+
+                        <label>Password</label>
+
+                        <input asp-for="Password"
+                               type="password" />
+
+                    </div>
+
+                    <button type="submit">
+
+                        Login
+
+                    </button>
+
+                </form>
+
+                <div class="copyright">
+
+                    © 2026 FLEX Manufacturing
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</body>
+
+</html>

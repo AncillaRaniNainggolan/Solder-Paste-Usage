@@ -1,0 +1,175 @@
+﻿@model IEnumerable<SolderPasteUsage.Models.MaterialOrder>
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+}
+
+<div class="dashboard-title">
+    <h1>Warehouse Dashboard</h1>
+    <p>Material Transfer Monitoring</p>
+</div>
+
+<div class="summary-grid">
+
+    <div class="summary-card">
+        <div class="card-title">TOTAL ORDER</div>
+        <div class="card-value">
+            @ViewBag.TotalOrder
+        </div>
+    </div>
+
+    <div class="summary-card">
+        <div class="card-title">PENDING</div>
+        <div class="card-value">
+            @ViewBag.Pending
+        </div>
+    </div>
+
+    <div class="summary-card">
+        <div class="card-title">IN PROGRESS</div>
+        <div class="card-value">
+            @ViewBag.InProgress
+        </div>
+    </div>
+
+    <div class="summary-card">
+        <div class="card-title">ARRIVED</div>
+        <div class="card-value">
+            @ViewBag.Arrived
+        </div>
+    </div>
+ 
+
+</div>
+
+<div class="table-card">
+
+
+    <table id="warehouseTable"
+           class="dashboard-table datatable display nowrap"
+           style="width:100%">
+
+        <thead>
+            <tr>
+                <th>WO</th>
+                <th>Project</th>
+                <th>Qty Jar</th>
+                <th>Status</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+
+        <tbody>
+
+            @if (Model != null && Model.Any())
+            {
+                @foreach (var item in Model)
+                {
+                    <tr>
+
+                        <td>@item.WO</td>
+
+                        <td>@item.ProjectName</td>
+
+                        <td>@item.QtyJar</td>
+
+                        <td>
+
+                            @if (item.TransferStatus == "Pending")
+                            {
+                                <span class="badge bg-warning">
+                                    Pending
+                                </span>
+                            }
+                            else if (item.TransferStatus == "Order Generated")
+                            {
+                                <span class="badge bg-primary">
+                                    Order Generated
+                                </span>
+                            }
+                            else if (item.TransferStatus == "In Progress")
+                            {
+                                <span class="badge bg-info">
+                                    In Progress
+                                </span>
+                            }
+                            else if (item.TransferStatus == "Delivered")
+                            {
+                                <span class="badge bg-success">
+                                    Delivered
+                                </span>
+                            }
+                            else if (item.TransferStatus == "Arrived")
+                            {
+                                <span class="badge bg-secondary">
+                                    Arrived
+                                </span>
+                            }
+
+                        </td>
+
+                        <td>
+
+                            @if (item.TransferStatus == "Pending" ||
+                           item.TransferStatus == "Order Generated")
+                            {
+                                <a asp-action="Process"
+                                   asp-route-id="@item.OrderId"
+                                   class="btn btn-warning">
+
+                                    Process
+
+                                </a>
+                            }
+                            else if (item.TransferStatus == "In Progress")
+                            {
+                                <a asp-action="Deliver"
+                                   asp-route-id="@item.OrderId"
+                                   class="btn btn-primary">
+
+                                    Deliver
+
+                                </a>
+                            }
+                            else if (item.TransferStatus == "Delivered")
+                            {
+                                <a asp-action="Arrive"
+                                   asp-route-id="@item.OrderId"
+                                   class="btn btn-success">
+
+                                    Arrive
+
+                                </a>
+                            }
+                            else
+                            {
+                                <span style="color:green;font-weight:bold;">
+                                    Completed
+                                </span>
+                            }
+
+                        </td>
+
+                    </tr>
+                }
+            }
+            else
+            {
+                <tr>
+
+                    <td colspan="5"
+                        style="padding:25px;text-align:center;">
+
+                        No Material Orders Found
+
+                    </td>
+
+                </tr>
+            }
+
+        </tbody>
+       
+    </table>
+
+</div>

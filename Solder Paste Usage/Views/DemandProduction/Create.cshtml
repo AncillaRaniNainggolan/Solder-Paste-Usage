@@ -1,0 +1,208 @@
+﻿@model SolderPasteUsage.Models.DemandProduction
+
+@{
+    ViewData["Title"] = "Add Demand Production";
+}
+
+<div class="dashboard-title">
+
+    <h1>Add Demand Production</h1>
+
+    <p>
+        Add new production demand data
+    </p>
+
+</div>
+
+
+<div class="form-card">
+
+    <form asp-controller="DemandProduction"
+          asp-action="Create"
+          method="post">
+
+        @Html.AntiForgeryToken()
+
+
+        <div asp-validation-summary="ModelOnly"
+             class="validation-error">
+        </div>
+
+
+        <div class="form-grid">
+
+
+            <!-- LINE -->
+
+            <div class="form-group">
+
+                <label asp-for="Line">
+                    Line
+                </label>
+
+                <input asp-for="Line"
+                       class="form-control"
+                       placeholder="Enter production line" />
+
+                <span asp-validation-for="Line"
+                      class="validation-error">
+                </span>
+
+            </div>
+
+
+            <!-- WO -->
+
+            <div class="form-group">
+
+                <label asp-for="WO">
+                    Work Order
+                </label>
+
+                <input asp-for="WO"
+                       class="form-control"
+                       placeholder="Enter work order" />
+
+                <span asp-validation-for="WO"
+                      class="validation-error">
+                </span>
+
+            </div>
+
+
+            <!-- PROJECT -->
+
+            <div class="form-group">
+
+                <label asp-for="ProjectName">
+                    Project
+                </label>
+
+                <input asp-for="ProjectName"
+                       class="form-control"
+                       placeholder="Enter project name" />
+
+                <span asp-validation-for="ProjectName"
+                      class="validation-error">
+                </span>
+
+            </div>
+
+
+            <!-- FAMILY -->
+
+            <div class="form-group">
+
+                <label asp-for="Family">
+                    Family
+                </label>
+
+                <input asp-for="Family"
+                       class="form-control"
+                       placeholder="Enter family" />
+
+                <span asp-validation-for="Family"
+                      class="validation-error">
+                </span>
+
+            </div>
+
+
+            <!-- QUANTITY -->
+
+            <div class="form-group">
+
+                <label asp-for="Quantity">
+                    Quantity
+                </label>
+
+                <input asp-for="Quantity"
+                       type="number"
+                       class="form-control"
+                       placeholder="Enter quantity" />
+
+                <span asp-validation-for="Quantity"
+                      class="validation-error">
+                </span>
+
+            </div>
+
+
+            <!-- UPH -->
+
+            <div class="form-group">
+
+                <label asp-for="UPH">
+                    UPH
+                </label>
+
+                <input asp-for="UPH"
+                       type="number"
+                       class="form-control"
+                       placeholder="Enter UPH" />
+
+                <span asp-validation-for="UPH"
+                      class="validation-error">
+                </span>
+
+            </div>
+
+
+            <!-- WO START -->
+
+            <div class="form-group">
+
+                <label asp-for="WOStart">
+                    WO Start
+                </label>
+
+                <input asp-for="WOStart"
+                       type="datetime-local"
+                       class="form-control" />
+
+                <span asp-validation-for="WOStart"
+                      class="validation-error">
+                </span>
+
+            </div>
+
+
+        </div>
+
+
+        <div class="form-actions">
+
+            <a asp-controller="DemandProduction"
+               asp-action="Index"
+               class="btn-cancel">
+
+                Cancel
+
+            </a>
+
+
+            <button type="submit"
+                    class="btn-save">
+
+                Save Demand
+
+            </button>
+
+        </div>
+
+
+    </form>
+
+</div>
+
+
+@section Scripts
+{
+
+    @{
+        await Html.RenderPartialAsync(
+            "_ValidationScriptsPartial"
+        );
+    }
+
+}
